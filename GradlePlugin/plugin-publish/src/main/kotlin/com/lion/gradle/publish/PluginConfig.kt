@@ -13,31 +13,24 @@ import com.lion.gradle.publish.handler.publish.JFrog
 /**
  * Plugin config.
  *
- * @property recommendGradleVersion String Recommend gradle version.
  * @property publish Publish Publish config.
- * @property privateRepository PrivateRepository Private repository config.
  * @constructor
  */
 data class PluginConfig(
-    var recommendGradleVersion: String,
-    val publish: Publish,
-    var privateRepository: PrivateRepository
+    val publish: Publish
 )
 
 /**
  * Publish config.
  *
  * @property jar Repository Jar repository.
- * @property libraryAAR Repository Library AAR repository.
- * @property componentAAR Repository Component AAR repository.
+ * @property aar Repository Library AAR repository.
  * @property isRelease Boolean Publish release or not.
  * @property publishPlatform IPublishPlatform Publish platform,default is JFrog.
  * @constructor
  */
 data class Publish(
-    val jar: Repository,
-    val libraryAAR: Repository,
-    val componentAAR: Repository,
+    val repository: Repository,
     var isRelease: Boolean = false,
     var publishPlatform: IPublishPlatform = JFrog
 )
@@ -45,21 +38,17 @@ data class Publish(
 /**
  * Private repository.
  *
- * @property pluginGroupId String Plugin group id.
- * @property libraryGroupId String Library group id.
- * @property componentGroupId String Component group id.
+ * @property jarGroupId String Jar group id.
+ * @property aarGroupId String AAR group id.
  * @property latestVersion String Default version is the latest version.
  * @property isRelease Boolean Use release version or not.
- * @property isDebugMode Boolean Whether to use debug mode which is used to test private repository libraries.
  * @constructor
  */
 data class PrivateRepository(
-    val pluginGroupId: String,
-    val libraryGroupId: String,
-    val componentGroupId: String,
+    val jarGroupId: String,
+    val aarGroupId: String,
     var latestVersion: String,
-    var isRelease: Boolean = true,
-    var isDebugMode: Boolean = false
+    var isRelease: Boolean = true
 )
 
 /**

@@ -4,13 +4,18 @@ import java.util.*
 plugins {
     `java-library`
     `kotlin-dsl`
+    `maven-publish`
 }
+
+apply(plugin = "com.jfrog.artifactory")
+
 apply(plugin = "com.novoda.bintray-release")
 
 dependencies {
     api(gradleApi())
     api("com.android.tools.build:gradle:4.0.0")
     api("org.jfrog.buildinfo:build-info-extractor-gradle:4.12.0")
+    api("org.yaml:snakeyaml:1.26")
 }
 
 configure<com.novoda.gradle.release.PublishExtension> {

@@ -7,63 +7,43 @@
 package com.lion.gradle.publish.handler
 
 import com.lion.gradle.publish.PluginManager
+import com.lion.gradle.publish.PublishConfig
 import com.lion.gradle.publish.constant.Plugins
-import com.lion.gradle.publish.tool.Tools
 import org.gradle.api.Project
-import java.util.*
 
 abstract class BasePublishHandler : IHandler {
 
-    val publishConfig = PluginManager.pluginConfig.publish
-
+    val defaultPublishConfig = PluginManager.pluginConfig.publish
+    val config = PublishConfig.config
     lateinit var project: Project
-
-    private val properties: Properties? by lazy {
-        Tools.getProperties(project.projectDir.path + "/gradle.properties")
-    }
 
     override fun apply(target: Project) {
         project = target
         target.apply { plugin(Plugins.jFrog) }
         target.apply(mapOf("plugin" to Plugins.mavenPublish))
 
-        publishConfig.publishPlatform.publish(
+        defaultPublishConfig.publishPlatform.publish(
             target,
             getPublicationName(),
-            getGroupIdInternal(),
-            getArtifactIdInternal(),
-            "${getVersionInternal()}${publishConfig.publishPlatform.getSuffix()}",
+            getGroupId(),
+            getArtifactId(),
+            "${getVersion()}${defaultPublishConfig.publishPlatform.getSuffix()}",
             getSource()
         )
     }
 
+
+    private fun getGroupId(): String {
+        return config.groupId ?: AarPublishHandler.defaultPublishConfig.repository.groupId
+    }
+
+    private fun getArtifactId() = config.artifactId ?: AarPublishHandler.project.name
+
+    private fun getVersion(): String {
+        return config.version ?: AarPublishHandler.defaultPublishConfig.repository.version.name
+    }
+
     abstract fun getPublicationName(): String
-    abstract fun getGroupId(): String
-    abstract fun getArtifactId(): String
-    abstract fun getVersion(): String
+
     abstract fun getSource(): String
-
-    private fun getGroupIdInternal(): String {
-        return properties?.run {
-            this["groupId"] as String
-        } ?: run {
-            getGroupId()
-        }
-    }
-
-    private fun getArtifactIdInternal(): String {
-        return properties?.run {
-            this["artifactId"] as String
-        } ?: run {
-            getArtifactId()
-        }
-    }
-
-    private fun getVersionInternal(): String {
-        return properties?.run {
-            this["versionName"] as String
-        } ?: run {
-            getVersion()
-        }
-    }
 }

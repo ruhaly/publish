@@ -12,11 +12,5 @@ object JarPublishHandler : BasePublishHandler() {
 
     override fun getPublicationName() = PUBLICATION_NAME_JAR
 
-    override fun getGroupId() = publishConfig.jar.groupId
-
-    override fun getArtifactId() = project.name
-
-    override fun getVersion() = publishConfig.jar.version.name
-
     override fun getSource() = "${project.buildDir}/libs/${project.name}.jar"
 }

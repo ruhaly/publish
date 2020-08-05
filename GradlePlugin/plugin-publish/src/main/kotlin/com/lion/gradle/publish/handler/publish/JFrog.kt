@@ -6,6 +6,7 @@
 
 package com.lion.gradle.publish.handler.publish
 
+import com.lion.gradle.publish.PublishConfig
 import com.lion.gradle.publish.constant.PublishConstants
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ModuleDependency
@@ -16,9 +17,9 @@ import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
 import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
 
 object JFrog : IPublishPlatform {
-    override var userName = "robot"
-    override var password = "lion.2345"
-    override var url = "http://rd.lionaitech.com:9088/artifactory/"
+    override var userName = PublishConfig.config.user
+    override var password = PublishConfig.config.password
+    override var url = PublishConfig.config.url
     override var releasesRepoKey = "android-releases"
     override var snapshotsRepoKey = "android-snapshots"
 
@@ -30,9 +31,6 @@ object JFrog : IPublishPlatform {
         version: String,
         source: String
     ) {
-
-        println("-------------${project.name}--${publicationName}--${groupId}--${artifactId}--${version}--${source}  -------------------")
-
         project.afterEvaluate {
             val publishingExtension = project.extensions.getByType(PublishingExtension::class.java)
             publishingExtension.run {

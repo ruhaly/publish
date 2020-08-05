@@ -7,6 +7,7 @@
 package com.lion.gradle.publish.handler.publish
 
 import com.lion.gradle.publish.PluginManager
+import com.lion.gradle.publish.PublishConfig
 import com.lion.gradle.publish.constant.PublishConstants
 import org.gradle.api.Project
 
@@ -26,7 +27,8 @@ interface IPublishPlatform {
         source: String
     )
 
-    fun isRelease() = PluginManager.pluginConfig.publish.isRelease
+    fun isRelease() =
+        PublishConfig.config.useRelease ?: PluginManager.pluginConfig.publish.isRelease
 
     fun getSuffix(): String {
         return if (isRelease()) {

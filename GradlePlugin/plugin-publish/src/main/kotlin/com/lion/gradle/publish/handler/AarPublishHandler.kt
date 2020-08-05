@@ -12,25 +12,6 @@ object AarPublishHandler : BasePublishHandler() {
 
     override fun getPublicationName() = PUBLICATION_NAME_AAR
 
-    override fun getGroupId(): String {
-        val prefix = project.name.split("-")
-        return when (prefix[0]) {
-            "library" -> publishConfig.libraryAAR.groupId
-            "component" -> publishConfig.componentAAR.groupId
-            else -> ""
-        }
-    }
-
-    override fun getArtifactId() = project.name
-
-    override fun getVersion(): String {
-        val prefix = project.name.split("-")
-        return when (prefix[0]) {
-            "library" -> publishConfig.libraryAAR.version.name
-            "component" -> publishConfig.componentAAR.version.name
-            else -> ""
-        }
-    }
-
-    override fun getSource() = "${project.buildDir}/outputs/aar/${project.name}.aar"
+    override fun getSource() =
+        config.source ?: "${project.buildDir}/outputs/aar/${project.name}.aar"
 }
