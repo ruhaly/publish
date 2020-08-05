@@ -24,11 +24,10 @@ configure<com.novoda.gradle.release.PublishExtension> {
 
 
     userOrg = "ruhaly"
-    groupId = "com.plugin"
+    groupId = "com.ruhaly.plugin"
     artifactId = "publish"
     publishVersion = "1.0.0"
     desc = "Oh hi, this is a nice description for a project, right?"
-    website = ""
     repoName = "plugin"
     bintrayUser = property.getProperty("bintray.user")
     bintrayKey = property.getProperty("bintray.apikey")
