@@ -39,7 +39,6 @@ object PublishConfig {
                 config.user = this["user"] as String
                 config.password = this["password"] as String
             }
-            println("--------------config:${config}-----------------")
             config
         } catch (e: Exception) {
             throw GradleException("Please configure config.yml correctly", e)
