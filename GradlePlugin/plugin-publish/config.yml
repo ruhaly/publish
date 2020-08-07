@@ -1,0 +1,11 @@
+version: 1.0.1
+groupId: com.hary
+artifactId: gradle-plugin-publish #默认 module name
+
+url: http://rd.lionaitech.com:9088/artifactory/
+useRelease: false
+
+# bintray
+# 如果发布到 bintry 或者 maven  需要加以下属性
+userOrg: hary
+repoName: plugin

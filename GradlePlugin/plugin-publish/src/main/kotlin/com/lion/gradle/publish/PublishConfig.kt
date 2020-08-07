@@ -36,8 +36,9 @@ object PublishConfig {
                 Config::class.java
             )
             properties?.apply {
-                config.user = this["user"] as String
-                config.password = this["password"] as String
+                config.user = getProperty("user", "")
+                config.password = getProperty("password", "")
+                config.apiKey = getProperty("apiKey", "")
             }
             config
         } catch (e: Exception) {
@@ -50,12 +51,15 @@ class Config {
     var version: String? = null
     var groupId: String? = null
     var artifactId: String? = null
-    lateinit var url: String
     var useRelease: Boolean? = null
-    var name: String? = null
     var source: String? = null
+
+    lateinit var url: String
     lateinit var user: String
-    lateinit var password: String
+    var password: String? = null
+    var userOrg: String? = null
+    var repoName: String? = null
+    var apiKey: String? = null
 
     override fun toString(): String {
         return Gson().toJson(this)

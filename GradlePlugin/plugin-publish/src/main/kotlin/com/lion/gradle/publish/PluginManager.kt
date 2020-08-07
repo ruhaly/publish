@@ -6,6 +6,8 @@
 
 package com.lion.gradle.publish
 
+import com.lion.gradle.publish.constant.PublishType
+import com.lion.gradle.publish.handler.publish.Bintray
 import com.lion.gradle.publish.handler.publish.JFrog
 import org.gradle.api.GradleException
 import org.gradle.api.Project
@@ -26,6 +28,7 @@ object PluginManager {
     var pluginConfig: PluginConfig = createPluginConfig()
 
     private fun createPluginConfig(): PluginConfig {
+        println("------createPluginConfig---------")
         val properties = Properties()
         try {
             properties.load(this::class.java.getResourceAsStream("/properties/common.properties"))
@@ -43,6 +46,10 @@ object PluginManager {
         val versionName = if (isPublishRelease) releaseVersionName else snapshotVersionName
         val versionCode = if (isPublishRelease) releaseVersionCode else snapshotVersionCode
 
+
+        val pushType =
+            PublishConfig.project.properties.getOrDefault("publish.type", PublishType.JFROG.name)
+        println("=========pushType:$pushType=============")
         return PluginConfig(
             Publish(
                 Repository(
@@ -50,7 +57,7 @@ object PluginManager {
                     Version(versionName, versionCode)
                 ),
                 isRelease = isPublishRelease,
-                publishPlatform = JFrog
+                publishPlatform = if (PublishType.JFROG.name == pushType) JFrog else Bintray
             )
         )
     }

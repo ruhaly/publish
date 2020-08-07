@@ -20,4 +20,12 @@ object Plugins {
     // nexus
     const val maven = "maven"
     const val signing = "signing"
+
+    // bintray
+    const val bintray = "com.novoda.bintray-release"
+
+}
+
+enum class PublishType {
+    JFROG, BINTRAY, MAVEN
 }

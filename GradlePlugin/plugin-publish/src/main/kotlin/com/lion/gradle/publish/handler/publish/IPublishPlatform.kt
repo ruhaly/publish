@@ -12,8 +12,8 @@ import com.lion.gradle.publish.constant.PublishConstants
 import org.gradle.api.Project
 
 interface IPublishPlatform {
-    var userName: String
-    var password: String
+    var user: String
+    var password: String?
     var url: String
     var releasesRepoKey: String
     var snapshotsRepoKey: String
@@ -30,19 +30,5 @@ interface IPublishPlatform {
     fun isRelease() =
         PublishConfig.config.useRelease ?: PluginManager.pluginConfig.publish.isRelease
 
-    fun getSuffix(): String {
-        return if (isRelease()) {
-            PublishConstants.SUFFIX_RELEASE
-        } else {
-            PublishConstants.SUFFIX_SNAPSHOT
-        }
-    }
-
-    fun getRepoKey(): String {
-        return if (isRelease()) {
-            releasesRepoKey
-        } else {
-            snapshotsRepoKey
-        }
-    }
+    fun getSuffix(): String
 }

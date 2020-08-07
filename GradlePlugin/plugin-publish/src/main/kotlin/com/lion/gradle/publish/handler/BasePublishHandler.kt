@@ -19,9 +19,6 @@ abstract class BasePublishHandler : IHandler {
 
     override fun apply(target: Project) {
         project = target
-        target.apply { plugin(Plugins.jFrog) }
-        target.apply(mapOf("plugin" to Plugins.mavenPublish))
-
         defaultPublishConfig.publishPlatform.publish(
             target,
             getPublicationName(),

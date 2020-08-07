@@ -7,6 +7,7 @@
 package com.lion.gradle.publish.handler.publish
 
 import com.lion.gradle.publish.PublishConfig
+import com.lion.gradle.publish.constant.Plugins
 import com.lion.gradle.publish.constant.PublishConstants
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ModuleDependency
@@ -17,7 +18,7 @@ import org.jfrog.gradle.plugin.artifactory.dsl.ArtifactoryPluginConvention
 import org.jfrog.gradle.plugin.artifactory.task.ArtifactoryTask
 
 object JFrog : IPublishPlatform {
-    override var userName = PublishConfig.config.user
+    override var user = PublishConfig.config.user
     override var password = PublishConfig.config.password
     override var url = PublishConfig.config.url
     override var releasesRepoKey = "android-releases"
@@ -31,6 +32,9 @@ object JFrog : IPublishPlatform {
         version: String,
         source: String
     ) {
+        project.apply { plugin(Plugins.jFrog) }
+        project.apply(mapOf("plugin" to Plugins.mavenPublish))
+
         project.afterEvaluate {
             val publishingExtension = project.extensions.getByType(PublishingExtension::class.java)
             publishingExtension.run {
@@ -114,12 +118,29 @@ object JFrog : IPublishPlatform {
                     publisher.run {
                         contextUrl = JFrog.url
                         repoKey = JFrog.getRepoKey()
-                        username = userName
+                        username = user
                         password = JFrog.password
                     }
                 }
 
             }
+        }
+    }
+
+    override fun getSuffix(): String {
+        return if (isRelease()) {
+            PublishConstants.SUFFIX_RELEASE
+        } else {
+            PublishConstants.SUFFIX_SNAPSHOT
+        }
+    }
+
+
+    private fun getRepoKey(): String {
+        return if (isRelease()) {
+            releasesRepoKey
+        } else {
+            snapshotsRepoKey
         }
     }
 }

@@ -1,7 +1,19 @@
+val isBuildSrc = project.name == "buildSrc"
+
+repositories {
+    google()
+    jcenter()
+}
+
 plugins {
     `java-library`
     `kotlin-dsl`
     `maven-publish`
+}
+
+
+if (!isBuildSrc) {
+    apply(plugin = "publish")
 }
 
 dependencies {
@@ -11,10 +23,10 @@ dependencies {
     api("com.novoda:bintray-release:0.9.2")
     api("org.jfrog.buildinfo:build-info-extractor-gradle:4.12.0")
 }
-
-if (properties["publish.artifactory"] == "true") {
-    apply(from = "jfrog.gradle.kts")
-} else {
-    apply(from = "bintray.gradle.kts")
-}
+//
+//if (properties["publish.type"] == "frog") {
+//    apply(from = "jfrog.gradle.kts")
+//} else {
+//    apply(from = "bintray.gradle.kts")
+//}
 
