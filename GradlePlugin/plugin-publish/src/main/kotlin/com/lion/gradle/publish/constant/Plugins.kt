@@ -21,11 +21,14 @@ object Plugins {
     const val maven = "maven"
     const val signing = "signing"
 
+    // bintray-release
+    const val bintrayRelease = "com.novoda.bintray-release"
+
     // bintray
-    const val bintray = "com.novoda.bintray-release"
+    const val bintray = "com.jfrog.bintray"
 
 }
 
-enum class PublishType {
+enum class PublishTarget {
     JFROG, BINTRAY, MAVEN
 }

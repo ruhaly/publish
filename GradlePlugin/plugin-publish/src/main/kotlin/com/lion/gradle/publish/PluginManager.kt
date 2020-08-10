@@ -6,7 +6,7 @@
 
 package com.lion.gradle.publish
 
-import com.lion.gradle.publish.constant.PublishType
+import com.lion.gradle.publish.constant.PublishTarget
 import com.lion.gradle.publish.handler.publish.Bintray
 import com.lion.gradle.publish.handler.publish.JFrog
 import org.gradle.api.GradleException
@@ -46,10 +46,6 @@ object PluginManager {
         val versionName = if (isPublishRelease) releaseVersionName else snapshotVersionName
         val versionCode = if (isPublishRelease) releaseVersionCode else snapshotVersionCode
 
-
-        val pushType =
-            PublishConfig.project.properties.getOrDefault("publish.type", PublishType.JFROG.name)
-        println("=========pushType:$pushType=============")
         return PluginConfig(
             Publish(
                 Repository(
@@ -57,7 +53,7 @@ object PluginManager {
                     Version(versionName, versionCode)
                 ),
                 isRelease = isPublishRelease,
-                publishPlatform = if (PublishType.JFROG.name == pushType) JFrog else Bintray
+                publishPlatform = if (PublishTarget.JFROG.name == PublishConfig.config.publishTarget) JFrog else Bintray
             )
         )
     }

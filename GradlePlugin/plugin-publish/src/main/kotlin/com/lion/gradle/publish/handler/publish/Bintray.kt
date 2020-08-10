@@ -31,7 +31,7 @@ object Bintray : IPublishPlatform {
         source: String
     ) {
         project.apply {
-            plugin(Plugins.bintray)
+            plugin(Plugins.bintrayRelease)
             plugin(Plugins.mavenPublish)
         }
         project.configure<PublishExtension> {

@@ -9,11 +9,12 @@ plugins {
     `java-library`
     `kotlin-dsl`
     `maven-publish`
+//    id("com.jfrog.bintray") version ("1.8.5")
 }
 
 
 if (!isBuildSrc) {
-    apply(plugin = "publish")
+    apply(plugin = "library.java")
 }
 
 dependencies {
@@ -23,10 +24,3 @@ dependencies {
     api("com.novoda:bintray-release:0.9.2")
     api("org.jfrog.buildinfo:build-info-extractor-gradle:4.12.0")
 }
-//
-//if (properties["publish.type"] == "frog") {
-//    apply(from = "jfrog.gradle.kts")
-//} else {
-//    apply(from = "bintray.gradle.kts")
-//}
-

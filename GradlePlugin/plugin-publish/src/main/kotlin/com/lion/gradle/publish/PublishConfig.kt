@@ -1,6 +1,7 @@
 package com.lion.gradle.publish
 
 import com.google.gson.Gson
+import com.lion.gradle.publish.constant.PublishTarget
 import com.lion.gradle.publish.tool.Tools
 import org.gradle.api.GradleException
 import org.gradle.api.Project
@@ -39,6 +40,7 @@ object PublishConfig {
                 config.user = getProperty("user", "")
                 config.password = getProperty("password", "")
                 config.apiKey = getProperty("apiKey", "")
+                config.publishTarget = getProperty("publishTarget", PublishTarget.JFROG.name)
             }
             config
         } catch (e: Exception) {
@@ -60,6 +62,7 @@ class Config {
     var userOrg: String? = null
     var repoName: String? = null
     var apiKey: String? = null
+    var publishTarget: String? = null
 
     override fun toString(): String {
         return Gson().toJson(this)
